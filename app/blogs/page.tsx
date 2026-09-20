@@ -33,20 +33,14 @@ const Blogs = async ({
   searchParams: Promise<{ filter: string }>;
 }) => {
   const { filter } = await searchParams;
-  const allBlogs = getBlogs();
-  const blogs = filter
-    ? allBlogs.filter((blog) =>
-        blog.title.toLocaleLowerCase().includes(filter.toLocaleLowerCase()),
-      )
-    : allBlogs;
-  const orderedBlog = blogs.toSorted((a, b) => b.likes - a.likes);
+  const blogs = await getBlogs(filter);
   return (
     <div>
       <form action={filterBlogs}>
         <input name="filter" type="search" />
         <button type="submit">Search</button>
       </form>
-      {orderedBlog.map((blog) => (
+      {blogs.map((blog) => (
         <Blog blog={blog} key={blog.id} />
       ))}
     </div>

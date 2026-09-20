@@ -14,14 +14,14 @@ export const createBlog = async (formData: FormData) => {
     return;
   }
 
-  addBlogs({ title, author, url, likes });
+  await addBlogs({ title, author, url, likes });
   revalidatePath("/blogs");
   redirect("/blogs");
 };
 
 export const increaseBlogLike = async (formData: FormData) => {
   const id = formData.get("id") as string;
-  increaseLike(Number(id));
+  await increaseLike(Number(id));
   revalidatePath(`/blogs/${id}`);
   revalidatePath(`/blogs`);
 };
