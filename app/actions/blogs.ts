@@ -3,8 +3,11 @@
 import { redirect } from "next/navigation";
 import { addBlogs, increaseLike } from "../services/Blogs";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
 
 export const createBlog = async (formData: FormData) => {
+  const user = await auth();
+  if (!user) return null;
   const title = formData.get("title") as string;
   const author = formData.get("author") as string;
   const url = formData.get("url") as string;
@@ -14,7 +17,12 @@ export const createBlog = async (formData: FormData) => {
     return;
   }
 
-  await addBlogs({ title, author, url, likes });
+  await addBlogs({
+    title,
+    author,
+    url,
+    likes,
+  });
   revalidatePath("/blogs");
   redirect("/blogs");
 };

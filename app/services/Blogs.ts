@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { blogs } from "@/db/schema";
 import { desc, eq, ilike, sql } from "drizzle-orm";
+import { getCurrentUser } from "./session";
 
 export const getBlogs = async (filter: string | undefined) => {
   if (filter?.trim()) {
@@ -17,10 +18,14 @@ export const getBlogById = async (id: number) => {
 };
 
 type Blog = typeof blogs.$inferSelect;
-type BlogWitoutId = Omit<Blog, "id">;
+type BlogWitoutId = Omit<Blog, "id" | "userId">;
 
 export const addBlogs = async (data: BlogWitoutId) => {
-  await db.insert(blogs).values(data);
+  const user = await getCurrentUser();
+  if (!user) {
+    return null;
+  }
+  await db.insert(blogs).values({ ...data, userId: user.id });
 };
 
 export const increaseLike = async (id: number) => {
