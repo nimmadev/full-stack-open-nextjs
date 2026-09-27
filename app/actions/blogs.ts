@@ -5,16 +5,54 @@ import { addBlogs, increaseLike } from "../services/Blogs";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 
-export const createBlog = async (formData: FormData) => {
-  const user = await auth();
-  if (!user) return null;
-  const title = formData.get("title") as string;
-  const author = formData.get("author") as string;
-  const url = formData.get("url") as string;
-  const likes = Number(formData.get("likes"));
+type BlogFormState = {
+  error: string;
+  values: {
+    title: string;
+    author: string;
+    url: string;
+    likes: number;
+  };
+};
 
-  if (!title || !author || !url || Number.isNaN(likes)) {
-    return;
+export const createBlog = async (
+  prevState: BlogFormState,
+  formData: FormData,
+) => {
+  const title = formData.get("title")?.toString().trim() ?? "";
+  const author = formData.get("author")?.toString().trim() ?? "";
+  const url = formData.get("url")?.toString().trim() ?? "";
+  const likesValue = formData.get("likes")?.toString().trim() ?? "";
+
+  const likes = Number(likesValue);
+
+  const values = {
+    title,
+    author,
+    url,
+    likes: likesValue === "" ? 0 : likes,
+  };
+
+  const user = await auth();
+
+  if (!user) {
+    return {
+      error: "You must be logged in to create a blog.",
+      values,
+    };
+  }
+
+  if (
+    title.length < 5 ||
+    author.length < 5 ||
+    url.length < 5 ||
+    Number.isNaN(likes) ||
+    likes < 0
+  ) {
+    return {
+      error: "Title, author and URL must be at least 5 characters.",
+      values,
+    };
   }
 
   await addBlogs({
@@ -23,10 +61,10 @@ export const createBlog = async (formData: FormData) => {
     url,
     likes,
   });
+
   revalidatePath("/blogs");
   redirect("/blogs");
 };
-
 export const increaseBlogLike = async (formData: FormData) => {
   const id = formData.get("id") as string;
   await increaseLike(Number(id));
