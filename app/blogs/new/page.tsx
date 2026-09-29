@@ -1,12 +1,27 @@
 "use client";
 import { createBlog } from "@/app/actions/blogs";
-import { useActionState } from "react";
+import { useNotification } from "@/app/components/NotificationProvider";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
 
 const AddBlog = () => {
   const [state, formAction] = useActionState(createBlog, {
     error: "",
     values: { title: "", author: "", url: "", likes: 0 },
+    success: false,
   });
+  const { showNotification } = useNotification();
+  const router = useRouter();
+  useEffect(() => {
+    if (state.success === false && state.error) {
+      showNotification(state.error, "error");
+    }
+    if (state.success) {
+      showNotification("blog created", "success");
+      router.push("/blogs");
+    }
+  }, [state, showNotification, router]);
+
   return (
     <div>
       <h2>create a new blog</h2>
@@ -56,7 +71,6 @@ const AddBlog = () => {
           </label>
         </div>
         <button type="submit">create</button>
-        {state.error && <p style={{ color: "red" }}>{state.error}</p>}
       </form>
     </div>
   );

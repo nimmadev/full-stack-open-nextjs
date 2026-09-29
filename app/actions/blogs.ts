@@ -13,6 +13,7 @@ type BlogFormState = {
     url: string;
     likes: number;
   };
+  success: boolean;
 };
 
 export const createBlog = async (
@@ -39,6 +40,7 @@ export const createBlog = async (
     return {
       error: "You must be logged in to create a blog.",
       values,
+      success: false,
     };
   }
 
@@ -52,6 +54,7 @@ export const createBlog = async (
     return {
       error: "Title, author and URL must be at least 5 characters.",
       values,
+      success: false,
     };
   }
 
@@ -63,7 +66,8 @@ export const createBlog = async (
   });
 
   revalidatePath("/blogs");
-  redirect("/blogs");
+  // redirect("/blogs");
+  return { error: "", values, success: true };
 };
 export const increaseBlogLike = async (formData: FormData) => {
   const id = formData.get("id") as string;
