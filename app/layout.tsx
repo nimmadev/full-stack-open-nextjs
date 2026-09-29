@@ -1,3 +1,4 @@
+import "@/app/globals.css";
 import { AuthSessionProvider } from "./components/SessionProvider";
 import { NavBar } from "./components/NavBar";
 import { NotificationProvider } from "./components/NotificationProvider";
