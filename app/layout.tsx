@@ -14,7 +14,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <NavBar />
             </header>
             <Notification />
-            {children}
+            <div className="px-8 py-2">{children}</div>
           </NotificationProvider>
         </AuthSessionProvider>
       </body>
