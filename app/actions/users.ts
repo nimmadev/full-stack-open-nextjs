@@ -1,10 +1,13 @@
 "use server";
 
+import { auth } from "@/auth";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
+import { genrateToken } from "../services/users";
+import { revalidatePath } from "next/cache";
 
 type RegisterUserState = {
   values: {
@@ -68,4 +71,13 @@ export const registerUser = async (
   });
 
   redirect("/login");
+};
+
+export const genrateUserToken = async (formData: FormData) => {
+  const user = await auth();
+  if (!user) {
+    redirect("/login");
+  }
+  await genrateToken(user.user?.email as string);
+  revalidatePath("/me");
 };

@@ -12,3 +12,8 @@ export const getBlogWithUserUsername = (username: string) => {
     with: { blogs: true },
   });
 };
+
+export const genrateToken = async (username: string) => {
+  const token = crypto.randomUUID();
+  await db.update(users).set({ token }).where(eq(users.username, username));
+};

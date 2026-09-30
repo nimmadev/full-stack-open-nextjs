@@ -36,6 +36,20 @@
       "when": 1790312121598,
       "tag": "0004_handy_christian_walker",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790737860961,
+      "tag": "0005_tidy_valeria_richards",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790774932522,
+      "tag": "0006_bizarre_frank_castle",
+      "breakpoints": true
     }
   ]
 }

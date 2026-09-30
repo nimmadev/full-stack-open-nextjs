@@ -20,7 +20,7 @@ export const NavBar = () => {
         {session ? (
           <>
             <span className="text-sm text-gray-300">{session.user?.name}</span>
-
+            <NavLink href="/me">me</NavLink>
             <button
               onClick={() => signOut()}
               className="rounded-xl border border-red-500 px-4 py-2 text-sm font-medium text-red-400 transition hover:bg-red-500 hover:text-white active:scale-95"
