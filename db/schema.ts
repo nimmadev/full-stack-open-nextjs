@@ -27,10 +27,6 @@ export const users = pgTable("users", {
   token: text().unique(),
 });
 
-export const userRelation = relations(users, ({ many }) => ({
-  blogs: many(blogs),
-}));
-
 export const blogRelation = relations(blogs, ({ one }) => ({
   user: one(users, {
     fields: [blogs.userId],
@@ -61,6 +57,8 @@ export const readingListUserRelation = relations(readingList, ({ one }) => ({
     references: [blogs.id],
   }),
 }));
-export const userReadingListRelation = relations(users, ({ many }) => ({
+
+export const userRelation = relations(users, ({ many }) => ({
+  blogs: many(blogs),
   readingList: many(readingList),
 }));

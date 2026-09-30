@@ -1,14 +1,22 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "../services/session";
 import { genrateUserToken } from "../actions/users";
+import { getReadingListWithUserId } from "../services/readingList";
+import Link from "next/link";
+import { markReadingList } from "../actions/readingList";
 
 export default async function Me() {
   const user = await getCurrentUser();
-
   if (!user) {
     redirect("/login");
   }
-
+  const readingList = await getReadingListWithUserId(user.id);
+  const read = readingList!.readingList
+    .filter((curr) => curr.read)
+    .map((curr) => curr.blog);
+  const unread = readingList!.readingList
+    .filter((curr) => !curr.read)
+    .map((curr) => curr.blog);
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-10">
       <div className="mx-auto max-w-2xl">
@@ -39,6 +47,78 @@ export default async function Me() {
               <p className="mt-1 text-base text-gray-900">{user.username}</p>
             </div>
           </div>
+        </section>
+        <section>
+          <h2 className="mb-5 text-3xl font-semibold text-gray-900">
+            Reading list
+          </h2>
+          <section className=" scroll-auto">
+            <h2 className="ml-5 mb-5 text-2xl font-semibold text-gray-900">
+              Unread {`(${unread.length})`}
+            </h2>
+
+            <div className="ml-8 max-h-3/6">
+              {unread.map((blog) => {
+                return (
+                  <div
+                    key={blog.id}
+                    className="flex items-center justify-between gap-4 rounded-lg border p-4"
+                  >
+                    <Link
+                      href={`/blogs/${blog.id}`}
+                      className="text-blue-500 hover:text-blue-900"
+                    >
+                      {blog.title}
+                    </Link>
+
+                    <form action={markReadingList}>
+                      <input type="hidden" name="blogId" value={blog.id} />
+                      <button
+                        type="submit"
+                        className="
+        rounded-lg
+        bg-green-500
+        px-4
+        py-2
+        text-sm
+        font-medium
+        text-white
+        transition
+        hover:bg-green-700
+        active:scale-95
+      "
+                      >
+                        Mark as read
+                      </button>
+                    </form>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+          <section className=" scroll-auto">
+            <h2 className="ml-5 mb-5 text-2xl font-semibold text-gray-900">
+              Read {`(${read.length})`}
+            </h2>
+
+            <div className="ml-8 max-h-3/6">
+              {read.map((blog) => {
+                return (
+                  <div
+                    key={blog.id}
+                    className="flex items-center justify-between gap-4 rounded-lg border p-4"
+                  >
+                    <Link
+                      href={`/blogs/${blog.id}`}
+                      className="text-blue-500 hover:text-blue-900"
+                    >
+                      {blog.title}
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
         </section>
 
         {/* API Token Card */}

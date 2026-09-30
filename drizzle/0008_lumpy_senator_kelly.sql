@@ -1,0 +1,1 @@
+ALTER TABLE "reading_list" ADD CONSTRAINT "reading_list_blog_id_unique" UNIQUE("blog_id");

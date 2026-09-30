@@ -1,0 +1,1 @@
+ALTER TABLE "reading_list" DROP CONSTRAINT "reading_list_blog_id_unique";
