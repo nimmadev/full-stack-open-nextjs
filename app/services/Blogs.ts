@@ -32,6 +32,18 @@ export const addBlogs = async (data: BlogWitoutId) => {
   await db.insert(readingList).values({ userId: user.id, blogId: blog[0].id });
 };
 
+export const addToReadingList = async (blogId: number) => {
+  const user = await getCurrentUser();
+  if (!user) {
+    return null;
+  }
+  const blog = await db.query.blogs.findFirst({ where: eq(blogs.id, blogId) });
+  if (!blog) {
+    return null;
+  }
+  await db.insert(readingList).values({ userId: user.id, blogId: blog.id });
+};
+
 export const increaseLike = async (id: number) => {
   await db
     .update(blogs)
