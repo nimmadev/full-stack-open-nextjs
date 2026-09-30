@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { addBlogs, increaseLike } from "../services/Blogs";
+import { addBlogs, addToReadingList, increaseLike } from "../services/Blogs";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 
@@ -82,4 +82,10 @@ export const filterBlogs = async (formData: FormData) => {
   const params = new URLSearchParams({ filter });
 
   redirect(`/blogs?${params.toString()}`);
+};
+
+export const addBlogToReadinglist = async (formData: FormData) => {
+  const id = formData.get("id") as string;
+  await addToReadingList(Number(id));
+  revalidatePath(`/blogs/${id}`);
 };

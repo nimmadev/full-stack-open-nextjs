@@ -1,10 +1,11 @@
-import { increaseBlogLike } from "@/app/actions/blogs";
-import { getBlogById } from "@/app/services/Blogs";
+import { addBlogToReadinglist, increaseBlogLike } from "@/app/actions/blogs";
+import { getBlogById, inReadingList } from "@/app/services/Blogs";
+import { getCurrentUser } from "@/app/services/session";
 import { notFound } from "next/navigation";
 
 const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
-
+  const user = await getCurrentUser();
   const blogId = Number(id);
 
   if (!Number.isInteger(blogId) || blogId <= 0) {
@@ -12,6 +13,10 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   const blog = await getBlogById(blogId);
+  let inList = undefined;
+  if (user) {
+    inList = await inReadingList(user.id, blogId);
+  }
 
   if (!blog) {
     notFound();
@@ -56,6 +61,27 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
             ❤️ Like
           </button>
         </form>
+        {user && !inList && user.id !== blog.userId && (
+          <form action={addBlogToReadinglist} className="mt-5">
+            <input type="hidden" name="id" value={blog.id} />
+
+            <button
+              type="submit"
+              className="
+              rounded-xl
+              bg-green-400
+              px-5 py-2
+              font-medium
+              text-white
+              transition
+              hover:bg-green-600
+              active:scale-95
+            "
+            >
+              add to reading list
+            </button>
+          </form>
+        )}
       </article>
     </main>
   );

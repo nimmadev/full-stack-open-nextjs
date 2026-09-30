@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { blogs, readingList } from "@/db/schema";
-import { desc, eq, ilike, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, sql } from "drizzle-orm";
 import { getCurrentUser } from "./session";
 
 export const getBlogs = async (filter: string | undefined) => {
@@ -44,6 +44,11 @@ export const addToReadingList = async (blogId: number) => {
   await db.insert(readingList).values({ userId: user.id, blogId: blog.id });
 };
 
+export const inReadingList = async (userId: number, blogId: number) => {
+  return await db.query.readingList.findFirst({
+    where: and(eq(readingList.userId, userId), eq(readingList.blogId, blogId)),
+  });
+};
 export const increaseLike = async (id: number) => {
   await db
     .update(blogs)
