@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = "http://localhost:3001";
 
 export const resetDatabase = async () => {
   const response = await fetch(`${baseUrl}/api/testing/reset`, {
