@@ -1,5 +1,12 @@
+"use client";
+import Homepage from "./homepage.mdx";
+
 const Home = () => {
-  return <div>hello</div>;
+  return (
+    <div className="markdown">
+      <Homepage />
+    </div>
+  );
 };
 
 export default Home;
