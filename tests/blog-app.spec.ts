@@ -99,7 +99,7 @@ test.describe("Blog Application", () => {
 
       // Click logout button
       await page.getByRole("button", { name: /logout/i }).click();
-
+      await page.waitForTimeout(1000);
       // Should redirect and show login link in navbar
       await expect(
         page.getByRole("link", { name: "login", exact: true }),
