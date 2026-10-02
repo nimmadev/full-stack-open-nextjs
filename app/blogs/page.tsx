@@ -60,6 +60,7 @@ const Blogs = async ({
             focus:ring-2
             focus:ring-blue-200
           "
+          data-testid="filter-input"
         />
 
         <button
@@ -74,12 +75,13 @@ const Blogs = async ({
             hover:bg-blue-700
             active:scale-95
           "
+          data-testid="search-button"
         >
           Search
         </button>
       </form>
 
-      <div className="mt-6 flex flex-wrap gap-4">
+      <div className="mt-6 flex flex-wrap gap-4" data-testid="blogs-list">
         {blogs.map((blog) => (
           <Blog blog={blog} key={blog.id} />
         ))}

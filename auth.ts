@@ -5,7 +5,7 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
-export const { handlers, auth } = NextAuth({
+export const { handlers, auth, signOut } = NextAuth({
   providers: [
     Credentials({
       credentials: {

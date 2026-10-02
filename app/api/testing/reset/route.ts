@@ -9,6 +9,7 @@ export const DELETE = async () => {
       { status: 403 },
     );
   }
+
   await db.delete(readingList);
   await db.delete(blogs);
   await db.delete(users);

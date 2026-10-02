@@ -3,9 +3,11 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useNotification } from "../components/NotificationProvider";
 
 const Login = () => {
   const router = useRouter();
+  const { showNotification } = useNotification();
   const [error, setError] = useState("");
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ const Login = () => {
     if (result?.error) {
       setError("Invalid username or password");
     } else {
+      showNotification("login success", "success");
       router.push("/");
       router.refresh();
     }
@@ -26,7 +29,11 @@ const Login = () => {
   return (
     <div>
       <h2>Login</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && (
+        <p data-testid="error-message" style={{ color: "red" }}>
+          {error}
+        </p>
+      )}
       <form onSubmit={handleSubmit}>
         <div>
           <label>
@@ -40,7 +47,9 @@ const Login = () => {
             <input type="password" name="password" required />
           </label>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" data-testid="login-button">
+          Login
+        </button>
       </form>
     </div>
   );

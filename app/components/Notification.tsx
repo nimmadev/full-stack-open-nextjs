@@ -12,7 +12,11 @@ const Notification = () => {
     color: "white",
     backgroundColor: type === "success" ? "#16a34a" : "#dc2626",
   };
-  return <div style={style}>{msg} </div>;
+  return (
+    <div data-testid="notification" style={style}>
+      {msg}{" "}
+    </div>
+  );
 };
 
 export default Notification;

@@ -11,7 +11,7 @@ export const NavBar = () => {
       <div className="flex items-center gap-3">
         <NavLink href="/">Home</NavLink>
         <NavLink href="/users">Users</NavLink>
-        <NavLink href="/blogs">Blogs</NavLink>
+        <NavLink href="/blogs">blogs</NavLink>
 
         {session && <NavLink href="/blogs/new">Create Blog</NavLink>}
       </div>
@@ -30,8 +30,8 @@ export const NavBar = () => {
           </>
         ) : (
           <>
-            <NavLink href="/login">Login</NavLink>
-            <NavLink href="/register">Register</NavLink>
+            <NavLink href="/login">login</NavLink>
+            <NavLink href="/register">register</NavLink>
           </>
         )}
       </div>

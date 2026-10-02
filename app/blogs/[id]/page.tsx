@@ -23,11 +23,16 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   return (
-    <main className="mx-auto max-w-2xl p-6">
+    <main className="mx-auto max-w-2xl p-6" data-testid="blog-detail">
       <article className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-bold text-gray-900">{blog.title}</h1>
+        <h1
+          className="text-2xl font-bold text-gray-900"
+          data-testid="blog-title"
+        >
+          {blog.title}
+        </h1>
 
-        <p className="mt-3 text-gray-600">
+        <p className="mt-3 text-gray-600" data-testid="blog-author">
           By <strong>{blog.author}</strong>
         </p>
 
@@ -77,6 +82,7 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
               hover:bg-green-600
               active:scale-95
             "
+              data-testid="add-to-reading-list-button"
             >
               add to reading list
             </button>

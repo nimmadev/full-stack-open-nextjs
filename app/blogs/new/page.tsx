@@ -161,6 +161,7 @@ const AddBlog = () => {
             {/* Submit */}
             <button
               type="submit"
+              data-testid="create-blog-button"
               className="
                 w-full
                 rounded-xl

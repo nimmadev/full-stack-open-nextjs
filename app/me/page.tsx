@@ -18,7 +18,10 @@ export default async function Me() {
     .filter((curr) => !curr.read)
     .map((curr) => curr.blog);
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10">
+    <main
+      className="min-h-screen bg-gray-50 px-4 py-10"
+      data-testid="user-profile"
+    >
       <div className="mx-auto max-w-2xl">
         {/* Header */}
         <div className="mb-8">
@@ -39,12 +42,22 @@ export default async function Me() {
           <div className="space-y-4">
             <div>
               <p className="text-sm font-medium text-gray-500">Name</p>
-              <p className="mt-1 text-base text-gray-900">{user.name}</p>
+              <p
+                className="mt-1 text-base text-gray-900"
+                data-testid="user-name"
+              >
+                {user.name}
+              </p>
             </div>
 
             <div>
               <p className="text-sm font-medium text-gray-500">Username</p>
-              <p className="mt-1 text-base text-gray-900">{user.username}</p>
+              <p
+                data-testid="user-username"
+                className="mt-1 text-base text-gray-900"
+              >
+                {user.username}
+              </p>
             </div>
           </div>
         </section>
@@ -52,12 +65,12 @@ export default async function Me() {
           <h2 className="mb-5 text-3xl font-semibold text-gray-900">
             Reading list
           </h2>
-          <section className=" scroll-auto">
+          <section className=" scroll-auto" data-testid="reading-list-section">
             <h2 className="ml-5 mb-5 text-2xl font-semibold text-gray-900">
               Unread {`(${unread.length})`}
             </h2>
 
-            <div className="ml-8 max-h-3/6">
+            <div className="ml-8 max-h-3/6" data-testid="unread-section">
               {unread.map((blog) => {
                 return (
                   <div
@@ -87,6 +100,7 @@ export default async function Me() {
         hover:bg-green-700
         active:scale-95
       "
+                        data-testid="mark-read-"
                       >
                         Mark as read
                       </button>
@@ -95,8 +109,11 @@ export default async function Me() {
                 );
               })}
             </div>
+            {unread.length == 0 && (
+              <p data-testid="no-unread-blogs">no unread</p>
+            )}
           </section>
-          <section className=" scroll-auto">
+          <section className=" scroll-auto" data-testid="empty-reading-list">
             <h2 className="ml-5 mb-5 text-2xl font-semibold text-gray-900">
               Read {`(${read.length})`}
             </h2>

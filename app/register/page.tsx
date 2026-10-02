@@ -47,8 +47,21 @@ export default function RegisterPage() {
             <input type="password" name="passwordConfirm" required />
           </label>
         </div>
-        <button type="submit">Register</button>
-        {state.error && <p style={{ color: "red" }}>{state.error}</p>}
+        <button type="submit" data-testid="register-button">
+          Register
+        </button>
+        {state.error && (
+          <p
+            data-testid={
+              state.error == "Username and name must be at least 4 characters"
+                ? "username-error"
+                : "passwordConfirm-error"
+            }
+            style={{ color: "red" }}
+          >
+            {state.error}
+          </p>
+        )}
       </form>
     </div>
   );
