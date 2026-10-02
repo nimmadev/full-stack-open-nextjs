@@ -139,7 +139,10 @@ export default async function Me() {
         </section>
 
         {/* API Token Card */}
-        <section className="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <section
+          className="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
+          data-testid="api-token-section"
+        >
           <div className="mb-5">
             <h2 className="text-lg font-semibold text-gray-900">API Token</h2>
             <p className="mt-1 text-sm text-gray-500">
@@ -148,14 +151,21 @@ export default async function Me() {
           </div>
 
           {/* Token */}
-          <div className="rounded-lg bg-gray-100 p-4">
+          <div
+            className="rounded-lg bg-gray-100 p-4"
+            data-testid="token-display"
+          >
             <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500">
               Current Token
             </p>
 
-            <code className="block break-all rounded-md bg-gray-900 p-3 text-sm text-green-400">
+            <code
+              className="block break-all rounded-md bg-gray-900 p-3 text-sm text-green-400"
+              data-testid="api-token"
+            >
               {user.token}
             </code>
+            {!user.token && <p data-testid="no-token-message">no token</p>}
           </div>
 
           {/* Generate Token */}
@@ -163,6 +173,7 @@ export default async function Me() {
             <button
               type="submit"
               className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              data-testid="generate-token-button"
             >
               Generate New Token
             </button>

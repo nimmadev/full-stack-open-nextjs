@@ -450,6 +450,7 @@ test.describe("Blog Application", () => {
 
       // Generate token
       await page.getByTestId("generate-token-button").click();
+      await page.waitForTimeout(2000);
 
       // Should show the generated token
       await expect(page.getByTestId("token-display")).toBeVisible();
@@ -465,6 +466,8 @@ test.describe("Blog Application", () => {
 
       // Generate first token
       await page.getByTestId("generate-token-button").click();
+      await page.waitForTimeout(2000);
+
       await page.waitForSelector('[data-testid="api-token"]');
       const firstToken = await page.getByTestId("api-token").textContent();
 
@@ -472,7 +475,7 @@ test.describe("Blog Application", () => {
       await page.getByTestId("generate-token-button").click();
 
       // Wait for token to potentially change
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(2000);
       const secondToken = await page.getByTestId("api-token").textContent();
 
       // Tokens should be different
